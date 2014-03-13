@@ -1,0 +1,111 @@
+[
+ {
+  "creation": "2014-03-12 14:48:01", 
+  "docstatus": 0, 
+  "modified": "2014-03-13 18:03:15", 
+  "modified_by": "Administrator", 
+  "owner": "Administrator"
+ }, 
+ {
+  "autoname": "Chat-.#######", 
+  "doctype": "DocType", 
+  "document_type": "Transaction", 
+  "icon": "icon-comments", 
+  "module": "Website Chat", 
+  "name": "__common__", 
+  "title_field": "client_question"
+ }, 
+ {
+  "doctype": "DocField", 
+  "name": "__common__", 
+  "parent": "Website Chat Session", 
+  "parentfield": "fields", 
+  "parenttype": "DocType", 
+  "permlevel": 0
+ }, 
+ {
+  "create": 1, 
+  "doctype": "DocPerm", 
+  "name": "__common__", 
+  "parent": "Website Chat Session", 
+  "parentfield": "permissions", 
+  "parenttype": "DocType", 
+  "permlevel": 0, 
+  "read": 1
+ }, 
+ {
+  "doctype": "DocType", 
+  "name": "Website Chat Session"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "status", 
+  "fieldtype": "Select", 
+  "in_list_view": 1, 
+  "label": "Status", 
+  "options": "Active\nArchived"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "website_chat_agent", 
+  "fieldtype": "Link", 
+  "label": "Website Chat Agent", 
+  "options": "Website Chat Agent"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "column_break_3", 
+  "fieldtype": "Column Break"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "client_name", 
+  "fieldtype": "Data", 
+  "in_list_view": 1, 
+  "label": "Client Name"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "client_email_id", 
+  "fieldtype": "Data", 
+  "label": "Client Email Id"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "client_question_type", 
+  "fieldtype": "Data", 
+  "label": "Client Question Type"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "section_break_7", 
+  "fieldtype": "Section Break"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "client_question", 
+  "fieldtype": "Text", 
+  "in_list_view": 1, 
+  "label": "Client Question"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "website_chat_messages", 
+  "fieldtype": "Table", 
+  "label": "Website Chat Messages", 
+  "options": "Website Chat Message"
+ }, 
+ {
+  "delete": 1, 
+  "doctype": "DocPerm", 
+  "export": 1, 
+  "report": 1, 
+  "role": "System Manager", 
+  "write": 1
+ }, 
+ {
+  "doctype": "DocPerm", 
+  "restricted": 1, 
+  "role": "Guest"
+ }
+]
