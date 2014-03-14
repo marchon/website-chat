@@ -2,12 +2,12 @@
  {
   "creation": "2014-03-12 14:48:01", 
   "docstatus": 0, 
-  "modified": "2014-03-13 18:03:15", 
+  "modified": "2014-03-14 16:25:19", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
  {
-  "autoname": "Chat-.#######", 
+  "autoname": "random", 
   "doctype": "DocType", 
   "document_type": "Transaction", 
   "icon": "icon-comments", 
@@ -38,6 +38,7 @@
   "name": "Website Chat Session"
  }, 
  {
+  "default": "Active", 
   "doctype": "DocField", 
   "fieldname": "status", 
   "fieldtype": "Select", 
@@ -96,11 +97,17 @@
   "options": "Website Chat Message"
  }, 
  {
+  "doctype": "DocField", 
+  "fieldname": "client_gravatar", 
+  "fieldtype": "Data", 
+  "label": "Client Gravatar"
+ }, 
+ {
   "delete": 1, 
   "doctype": "DocPerm", 
   "export": 1, 
   "report": 1, 
-  "role": "System Manager", 
+  "role": "Website Chat Agent", 
   "write": 1
  }, 
  {

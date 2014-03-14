@@ -2,7 +2,7 @@
  {
   "creation": "2014-03-12 15:06:17", 
   "docstatus": 0, 
-  "modified": "2014-03-12 15:06:17", 
+  "modified": "2014-03-14 12:00:41", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -15,9 +15,7 @@
  }, 
  {
   "doctype": "DocField", 
-  "fieldname": "message", 
-  "fieldtype": "Text", 
-  "label": "Message", 
+  "in_list_view": 1, 
   "name": "__common__", 
   "parent": "Website Chat Message", 
   "parentfield": "fields", 
@@ -29,6 +27,16 @@
   "name": "Website Chat Message"
  }, 
  {
-  "doctype": "DocField"
+  "doctype": "DocField", 
+  "fieldname": "message", 
+  "fieldtype": "Text", 
+  "label": "Message"
+ }, 
+ {
+  "doctype": "DocField", 
+  "fieldname": "sender", 
+  "fieldtype": "Select", 
+  "label": "Sender", 
+  "options": "Client\nAgent"
  }
 ]

@@ -2,7 +2,7 @@
  {
   "creation": "2014-03-12 15:05:03", 
   "docstatus": 0, 
-  "modified": "2014-03-13 16:29:51", 
+  "modified": "2014-03-14 16:06:29", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -23,19 +23,13 @@
   "permlevel": 0
  }, 
  {
-  "create": 1, 
-  "delete": 1, 
   "doctype": "DocPerm", 
-  "export": 1, 
   "name": "__common__", 
   "parent": "Website Chat Agent", 
   "parentfield": "permissions", 
   "parenttype": "DocType", 
   "permlevel": 0, 
-  "read": 1, 
-  "report": 1, 
-  "role": "System Manager", 
-  "write": 1
+  "read": 1
  }, 
  {
   "doctype": "DocType", 
@@ -74,6 +68,16 @@
   "label": "Agent Type"
  }, 
  {
-  "doctype": "DocPerm"
+  "create": 1, 
+  "delete": 1, 
+  "doctype": "DocPerm", 
+  "export": 1, 
+  "report": 1, 
+  "role": "System Manager", 
+  "write": 1
+ }, 
+ {
+  "doctype": "DocPerm", 
+  "role": "Website Chat Agent"
  }
 ]

@@ -1,5 +1,5 @@
 {% block content %}
-<div class="welcome">
+<div class="chat-welcome">
 	<div class="chat-status">
 		<div class="alert alert-info">Checking status...</div>
 	</div>
@@ -31,17 +31,19 @@
 	    </div>
 	</div>	
 </div>
-<div class="sessions hide">
+<div class="chat-sessions hide">
 	<div class="row">
 		<div class="col-md-12">
-			<div class="chat-messages" style="height: 300px; overflow-y: auto;">
+			<div class="chat-messages" style="height: 300px; overflow-y: auto; padding: 7px; margin-bottom: 15px;">
 				<p class="text-muted">Start the chat...</p>
 			</div>
 			<div class="chat-input">
 	            <textarea class="form-control" style="height: 50px;"
-					id="chat_input" placeholder="Write Message..."></textarea>
+					id="chat-input" placeholder="Write Message..."></textarea>
+				<p class="pull-left text-muted small">tab + enter to post</p>
 				<div class="form-group pull-right" style="margin-top: 10px;">
-					<button type="submit" class="btn btn-success btn-small">Send</button>
+					<button type="submit" id="chat-send-message"
+						class="btn btn-success btn-small">Send</button>
 				</div>
 			</div>
 				
@@ -51,9 +53,3 @@
 {% endblock %}
 
 {% block script %}{% include "templates/includes/chat.js" %}{% endblock %}
-
-{% block sidebar %}
-<div class="sidebar-item">Chat 1</div>
-<div class="sidebar-item">Chat 2</div>
-<div class="sidebar-item">Chat 3</div>
-{% endblock %}
