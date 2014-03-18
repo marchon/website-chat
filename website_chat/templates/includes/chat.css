@@ -1,0 +1,32 @@
+.chat-messages {
+	height: 300px; 
+	overflow-y: auto; 
+	padding: 7px; 
+	margin-bottom: 15px;
+}
+
+.chat-session-end-screen {
+	position: absolute; 
+	top: 0; 
+	left: 0; 
+	right: 0; 
+	bottom: 0; 
+	opacity: 0.5; 
+	z-index: 100; 
+	background-color: #aaa; 
+	margin: -15px;
+}
+
+.chat-session-end-message {
+	position: absolute; 
+	top: 0; 
+	left: 0; 
+	right: 0; 
+	padding-top: 100px; 
+	z-index: 200;
+}
+
+.chat-feedback {
+	width: 250px; 
+	margin: auto;
+}

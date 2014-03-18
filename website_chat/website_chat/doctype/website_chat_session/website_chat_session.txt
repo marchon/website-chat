@@ -2,12 +2,12 @@
  {
   "creation": "2014-03-12 14:48:01", 
   "docstatus": 0, 
-  "modified": "2014-03-14 16:25:19", 
+  "modified": "2014-03-18 15:58:41", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
  {
-  "autoname": "random", 
+  "autoname": "hash", 
   "doctype": "DocType", 
   "document_type": "Transaction", 
   "icon": "icon-comments", 
@@ -31,20 +31,20 @@
   "parentfield": "permissions", 
   "parenttype": "DocType", 
   "permlevel": 0, 
-  "read": 1
+  "write": 1
  }, 
  {
   "doctype": "DocType", 
   "name": "Website Chat Session"
  }, 
  {
-  "default": "Active", 
+  "default": "New", 
   "doctype": "DocField", 
   "fieldname": "status", 
   "fieldtype": "Select", 
   "in_list_view": 1, 
   "label": "Status", 
-  "options": "Active\nArchived"
+  "options": "New\nActive\nEnded\nLost"
  }, 
  {
   "doctype": "DocField", 
@@ -97,22 +97,24 @@
   "options": "Website Chat Message"
  }, 
  {
+  "description": "5 is best, 1 is worst", 
   "doctype": "DocField", 
-  "fieldname": "client_gravatar", 
-  "fieldtype": "Data", 
-  "label": "Client Gravatar"
+  "fieldname": "feedback", 
+  "fieldtype": "Int", 
+  "label": "Feedback"
  }, 
  {
   "delete": 1, 
   "doctype": "DocPerm", 
   "export": 1, 
+  "read": 1, 
   "report": 1, 
-  "role": "Website Chat Agent", 
-  "write": 1
+  "role": "Website Chat Agent"
  }, 
  {
   "doctype": "DocPerm", 
-  "restricted": 1, 
+  "read": 0, 
+  "restricted": 0, 
   "role": "Guest"
  }
 ]

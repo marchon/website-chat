@@ -31,10 +31,27 @@
 	    </div>
 	</div>	
 </div>
-<div class="chat-sessions hide">
+<div class="chat-sessions hide" style="position: relative">
+	<div class="chat-session-end-screen end-chat hide">
+	</div>
+	<div class="chat-session-end-message end-chat hide text-center">
+		<h2>Chat Has Ended</h2>
+		<p>
+			<select class="form-control chat-feedback">
+				<option value="0">Rate the quality chat support.</option>
+				<option value="5">Excellent</option>
+				<option value="4">Good</option>
+				<option value="3">Okay</option>
+				<option value="2">Bad</option>
+				<option value="1">Horrible. I am mad</option>
+			</select>
+		</p>
+		<p><br></p>
+		<p><a onclick="location.reload()"><i class="icon-refresh"></i> Refresh to start again</a></p>
+	</div>
 	<div class="row">
 		<div class="col-md-12">
-			<div class="chat-messages" style="height: 300px; overflow-y: auto; padding: 7px; margin-bottom: 15px;">
+			<div class="chat-messages">
 				<p class="text-muted">Start the chat...</p>
 			</div>
 			<div class="chat-input">
@@ -51,5 +68,7 @@
 	</div>
 </div>
 {% endblock %}
+
+{% block style %}{% include "templates/includes/chat.css" %}{% endblock %}
 
 {% block script %}{% include "templates/includes/chat.js" %}{% endblock %}

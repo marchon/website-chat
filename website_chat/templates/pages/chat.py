@@ -34,11 +34,18 @@ def get_agent_status():
 @frappe.whitelist(allow_guest=True)
 def get_latest(chatid, sender, last_message_id=""):
 	out = {}
-	out["messages"] = frappe.get_list("Website Chat Message", 
-		fields = ["name", "sender", "message", "owner"],
-		filters = {"parent": chatid, "name": [">", last_message_id]},
-		order_by = "name desc", 
-		ignore_permissions=True)
+	if chatid != "no-chat":
+		doclist = frappe.cache().get_value(chatid)
+		if not doclist:
+			doclist = frappe.bean("Website Chat Session", chatid).doclist
+			frappe.cache().set_value(chatid, doclist)
+
+		out["messages"] = []
+		for d in doclist[1:]:
+			if d.get("doctype")=="Website Chat Message" and d.get("name") > last_message_id:
+				out["messages"].append(d)
+	
+		out["status"] = doclist[0].get('status')
 		
 	if sender=="Agent":
 		out["active_sessions"] = get_active_sessions()
@@ -48,11 +55,22 @@ def get_latest(chatid, sender, last_message_id=""):
 @frappe.whitelist()
 def get_active_sessions():
 	# memcache this
-	active_sessions = frappe.cache().get_value("website-chat-active-sessions")
+	active_sessions = None#frappe.cache().get_value("website-chat-active-sessions")
 	if active_sessions==None:
 		active_sessions = frappe.get_list("Website Chat Session",
-			fields=["name", "client_name"], filters={"status":"Active"}, 
+			fields=["name", "client_name", "status"], filters={"status":("in", ("Active", "New"))}, 
 			order_by="creation desc")
 		frappe.cache().set_value("website-chat-active-sessions", active_sessions)
 
 	return active_sessions
+	
+@frappe.whitelist(allow_guest=True)
+def end_chat(chatid):
+	chat = frappe.bean("Website Chat Session", chatid)
+	chat.doc.status = "Ended"
+	chat.save(ignore_permissions=True)
+	
+@frappe.whitelist(allow_guest=True)
+def set_feedback(chatid, feedback):
+	frappe.db.set_value("Website Chat Session", chatid, "feedback", feedback)
+	
