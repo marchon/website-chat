@@ -2,7 +2,7 @@
  {
   "creation": "2014-03-12 14:48:01", 
   "docstatus": 0, 
-  "modified": "2014-03-18 15:58:41", 
+  "modified": "2014-03-19 10:51:05", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -44,7 +44,7 @@
   "fieldtype": "Select", 
   "in_list_view": 1, 
   "label": "Status", 
-  "options": "New\nActive\nEnded\nLost"
+  "options": "New\nActive\nWaiting\nEnded\nLost"
  }, 
  {
   "doctype": "DocField", 

@@ -51,8 +51,24 @@
 	</div>
 	<div class="row">
 		<div class="col-md-12">
-			<div class="chat-messages">
-				<p class="text-muted">Start the chat...</p>
+			<div class="well well-sm">
+				<div class="row">
+					<div class="col-md-6 chatting-with" style="padding-top: 5px">
+						Chat is Active
+					</div>
+					<div class="col-md-6">
+						<button class="btn btn-primary btn-end-chat \
+							pull-right btn-sm">End Chat</button>
+						<button class="btn btn-success btn-agent-status \
+							pull-right btn-sm hide" 
+							style="margin-right: 5px">Go Offline</button>
+					</div>
+				</div>
+			</div>
+			<div class="chat-messages-wrap">
+				<div class="chat-messages">
+					<p class="text-muted">Start the chat...</p>
+				</div>
 			</div>
 			<div class="chat-input">
 	            <textarea class="form-control" style="height: 50px;"

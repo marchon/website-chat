@@ -2,9 +2,11 @@
 // check agent status
 
 var chat = {};
+chat.gravatars = {};
+chat.chats = {};
 
 frappe.ready(function() {
-	chat.$sidebar = $(".page-sidebar");
+	chat.$sidebar = $(".page-sidebar").html('<div class="sidebar-item"></div>');
 	chat.$messages = $(".chat-messages");
 	chat.set_agent_status();
 	chat.bind_events();
@@ -31,7 +33,40 @@ chat.bind_events = function() {
 	chat.welcome();
 	chat.send_message();
 	chat.setup_feedback();
+	chat.setup_end_chat();
+	chat.setup_agent_status();
 	setTimeout(chat.sync, 2000);
+}
+
+chat.sound = new Audio("/assets/website_chat/ding.mp3");
+
+chat.set_agent_status = function() {
+	$.ajax({
+		url:"api/method/website_chat.templates.pages.chat.get_agent_status",
+		statusCode: {
+			200: function(data) {
+				data = data.message;
+				if(data.active_sessions) {
+					chat.sender = "Agent";
+					chat.sender_id = getCookie("user_id");
+					chat.set_sessions(data.active_sessions);
+					chat.my_status = data.my_status;
+					chat.set_agent_status_btn();
+				} else {
+					chat.agent_status = data.agent_status;
+					chat.sender = "Client";
+					if(data.agent_status=="active") {
+						$(".chat-status").html('<div class="alert alert-success">\
+							Agents online. Please enter your name and email to start a session.</div>')
+					} else {
+						$(".chat-status").html('<div class="alert alert-warning">\
+							Agents offline. Please enter your name, email and question. \
+								Our agents will get back to you as soon as possible.</div>')
+					}
+				}
+			}
+		}
+	})
 }
 
 chat.welcome = function() {
@@ -60,7 +95,7 @@ chat.welcome = function() {
 							chat.chatid = data.doclist[0].name;
 							chat.chat_session = data.doclist[0];
 							chat.client_name = name,
-							chat.client_email_id = email,
+							chat.sender_id = email,
 							chat.start();
 							chat.add_message({
 								sender: "Client",
@@ -83,42 +118,14 @@ chat.welcome = function() {
 	
 }
 
-chat.send_message = function(chatid, question) {
-	$("#chat-send-message").on("click", function() {
-		var message = $("#chat-input").val();
-		if(message) {
-			$.ajax({
-				type:"POST",
-				url: "api/resource/Website Chat Message",
-				data: {
-					doclist: JSON.stringify([
-						{
-							"doctype":"Website Chat Message",
-							"parent": chat.chatid,
-							"parenttype": "Website Chat Session",
-							"parentfield": "website_chat_messages",
-							"message": message,
-							"sender": chat.sender || "Client"
-						}
-					])
-				},
-				statusCode: {
-					200: function(data) {
-						chat.add_message(data.doclist[0]);
-					}
-				}
-			})
-		}
-	})
-}
-
-
 chat.start = function() {
 	$("[data-chatid]").removeClass("active");
 	$("[data-chatid='"+chat.chatid+"']").addClass("active");
 	$(".chat-welcome, .end-chat").addClass("hide");
 	$(".chat-sessions").removeClass("hide");
 	chat.$messages.empty();
+	chat.message_ids = [];
+	$(".btn-end-chat").prop("disabled", false);
 	$("#chat-input").prop("disabled", false).focus();
 	if(!$(".btn-end-chat").length) {
 		$('<button class="pull-right btn btn-primary btn-end-chat">End Chat</button>').
@@ -134,8 +141,37 @@ chat.start = function() {
 	}
 }
 
-chat.gravatars = {};
-chat.chats = {};
+
+chat.send_message = function(chatid, question) {
+	$("#chat-send-message").on("click", function() {
+		var message = $("#chat-input").val();
+		if(message) {
+			$.ajax({
+				type:"POST",
+				url: "api/resource/Website Chat Message",
+				data: {
+					doclist: JSON.stringify([
+						{
+							"doctype":"Website Chat Message",
+							"parent": chat.chatid,
+							"parenttype": "Website Chat Session",
+							"parentfield": "website_chat_messages",
+							"message": message,
+							"owner": chat.sender_id,
+							"sender": chat.sender || "Client"
+						}
+					])
+				},
+				statusCode: {
+					200: function(data) {
+						chat.add_message(data.doclist[0]);
+					}
+				}
+			})
+		}
+	})
+}
+
 
 chat.get_gravatar = function(email_id) {
 	if(!chat.gravatars[email_id]) {
@@ -144,6 +180,13 @@ chat.get_gravatar = function(email_id) {
 	return chat.gravatars[email_id];
 }
 chat.add_message = function(message, no_animation) {
+	if(message.name) {
+		if(chat.message_ids.indexOf(message.name)!==-1) {
+			// duplicate
+			return;
+		}
+		chat.message_ids.push(message.name);
+	}
 	if(!message.owner) {
 		message.owner = chat.chat_session.client_email_id;
 	}
@@ -154,6 +197,7 @@ chat.add_message = function(message, no_animation) {
 		message.alert_class = "info";
 		message.avatar = chat.get_gravatar(message.owner);
 	}
+	message.time = comment_when(message.creation || new Date());
 
 	var div = $(repl('<div class="chat-message alert alert-%(alert_class)s media">\
 		<a class="pull-left">\
@@ -161,6 +205,7 @@ chat.add_message = function(message, no_animation) {
 		</a>\
 	    <div class="media-body">\
 			%(message)s\
+			<p class="text-muted small">%(time)s</p>\
 		</div>\
 	</div>', message)).appendTo(chat.$messages);
 	
@@ -176,36 +221,10 @@ chat.add_message = function(message, no_animation) {
 	chat.notify("New Message: " + message.message);
 }
 
-chat.set_agent_status = function() {
-	$.ajax({
-		url:"api/method/website_chat.templates.pages.chat.get_agent_status",
-		statusCode: {
-			200: function(data) {
-				data = data.message;
-				if(data.active_sessions) {
-					chat.sender = "Agent";
-					chat.set_sessions(data.active_sessions);
-				} else {
-					chat.agent_status = data.agent_status;
-					chat.sender = "Client";
-					if(data.agent_status=="active") {
-						$(".chat-status").html('<div class="alert alert-success">\
-							Agents online. Please enter your name and email to start a session.</div>')
-					} else {
-						$(".chat-status").html('<div class="alert alert-warning">\
-							Agents offline. Please enter your name, email and question. \
-								Our agents will get back to you as soon as possible.</div>')
-					}
-				}
-			}
-		}
-	})
-}
-
 
 chat.set_sync_timeout = function() {
 	if(!chat.timeout) {
-		chat.timeout = setTimeout(function() { chat.sync() }, 2000);
+		chat.timeout = setTimeout(function() { chat.sync() }, 3000);
 	}
 }
 
@@ -247,15 +266,6 @@ chat.sync = function() {
 	});
 }
 
-chat.end_chat = function() {
-	$(".end-chat").removeClass("hide");
-	$(".btn-end-chat").remove();
-	$("#chat-input").prop("disabled", false);
-	$(".chat-feedback")
-		.toggle(chat.sender==="Client")
-	chat.chat_session.status="Ended";
-}
-
 chat.sync_messages = function() {
 	chat.$messages.html('<div class="alert alert-info">Loading...</div>')
 	$.ajax({
@@ -264,6 +274,10 @@ chat.sync_messages = function() {
 			200: function(data) {
 				chat.$messages.empty();
 				chat.chat_session = data.doclist[0];
+				if(chat.sender==="Agent") {
+					$(".chatting-with").html(repl("Client: %(client_name)s (%(client_email_id)s)",
+						chat.chat_session));
+				}
 				chat.add_message({
 					sender:"Client",
 					message: chat.chat_session.client_question,
@@ -301,8 +315,12 @@ chat.set_sessions = function(active_sessions) {
 				if(!chat.chats[d.name]) {
 					chat.notify("New Chat: " + d.client_name + " > " + d.question);
 				}
-				$a.html('<i class="icon-chevron-right"></i> ' + d.client_name).css({"color": "green"});
+				$a.css({"color": "green"});
 			}
+			if(d.status==="Waiting" || d.status==="New") {
+				$a.html(d.client_name + ' <i class="icon-volume-up blink text-danger"></i>');
+			}
+			
 			chat.chats[d.name] = d;
 		});
 	
@@ -318,6 +336,56 @@ chat.set_sessions = function(active_sessions) {
 		$(".chat-welcome").addClass("hide");
 	}
 }
+
+chat.setup_agent_status = function() {
+	$(".btn-agent-status").on("click", function() {
+		$.ajax({
+			url:"/api/method/website_chat.templates.pages.chat.set_agent_status",
+			type: "POST",
+			data: {
+				my_status: chat.my_status
+			},
+			statusCode: {
+				200: function(data) {
+					chat.my_status = data.message;
+					chat.set_agent_status_btn();
+				}
+			}
+		})
+	})
+}
+
+chat.set_agent_status_btn = function() {
+	$(".btn-agent-status").removeClass("hide");
+	if(chat.my_status==="Active") {
+		$(".btn-agent-status").html("Go Offline").
+			removeClass("btn-default").addClass("btn-success");
+	} else {
+		$(".btn-agent-status").html("Go Online").
+			removeClass("btn-success").addClass("btn-default");
+	}
+}
+
+chat.setup_end_chat = function() {
+	$(".btn-end-chat")
+		.on("click", function() {
+			$(this).prop("disabled", true);
+			$.ajax({
+				url:"/api/method/website_chat.templates.pages.chat.end_chat",
+				type:"POST",
+				data: {chatid: chat.chatid}
+			});
+		});
+}
+
+chat.end_chat = function() {
+	$(".end-chat").removeClass("hide");
+	$("#chat-input").prop("disabled", true);
+	$(".chat-feedback")
+		.toggle(chat.sender==="Client")
+	chat.chat_session.status="Ended";
+}
+
 
 chat.setup_feedback = function() {
 	$(".chat-feedback").val("0").on("change", function() {
@@ -346,7 +414,11 @@ chat.setup_feedback = function() {
 }
 
 chat.notify = function(message) {
-	if(!document.hasFocus() && Notification.permission==="granted") {
-		new Notification(message);
+	if(!document.hasFocus()) {
+		 if(Notification.permission==="granted") {
+			new Notification(message);
+		 }
+		 chat.sound.play();
+		 chat.sound.currentTime = 0;
 	}
 }

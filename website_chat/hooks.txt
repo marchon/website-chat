@@ -7,3 +7,5 @@ app_color = #f1c40f
 app_email = info@frappe.io
 app_url = https://frappe.io/apps/website-chat
 app_version = 0.0.1
+
+on_session_creation = website_chat.templates.pages.chat.on_login

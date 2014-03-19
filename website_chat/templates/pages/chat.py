@@ -7,6 +7,14 @@ from frappe import _
 
 no_cache = True
 
+def on_login(login_manager):
+	agent = frappe.db.get_value("Website Chat Agent", 
+		{"user": frappe.session.user }, ["name", "status"], as_dict=True)
+	if agent and agent.status=="Offline":
+		agent = frappe.bean("Website Chat Agent", agent.name)
+		agent.doc.status = "Active"
+		agent.save(ignore_permissions=True)
+				
 def get_context(context):
 	return {
 		"title": _("Chat")
@@ -23,9 +31,11 @@ def get_agent_status():
 			
 	if frappe.session.user!="Guest":
 		# check if signed-in user is agent
-		if frappe.db.get_value("Website Chat Agent", {
-			"user": frappe.session.user }):
-			
+		my_status = frappe.db.get_value("Website Chat Agent", {
+			"user": frappe.session.user }, "status")
+		
+		if my_status:
+			out["my_status"] = my_status
 			# send active chats
 			out["active_sessions"] = get_active_sessions()
 			
@@ -55,10 +65,11 @@ def get_latest(chatid, sender, last_message_id=""):
 @frappe.whitelist()
 def get_active_sessions():
 	# memcache this
-	active_sessions = None#frappe.cache().get_value("website-chat-active-sessions")
+	active_sessions = frappe.cache().get_value("website-chat-active-sessions")
 	if active_sessions==None:
 		active_sessions = frappe.get_list("Website Chat Session",
-			fields=["name", "client_name", "status"], filters={"status":("in", ("Active", "New"))}, 
+			fields=["name", "client_name", "status"], 
+			filters={"status":("in", ("Active", "New", "Waiting"))}, 
 			order_by="creation desc")
 		frappe.cache().set_value("website-chat-active-sessions", active_sessions)
 
@@ -73,4 +84,13 @@ def end_chat(chatid):
 @frappe.whitelist(allow_guest=True)
 def set_feedback(chatid, feedback):
 	frappe.db.set_value("Website Chat Session", chatid, "feedback", feedback)
-	
+
+@frappe.whitelist()
+def set_agent_status(my_status):
+	agent = frappe.bean("Website Chat Agent", {"user": frappe.session.user})
+	if my_status=="Active":
+		agent.doc.status = "Offline"
+	else:
+		agent.doc.status = "Active"
+	agent.save(ignore_permissions=True)
+	return agent.doc.status
