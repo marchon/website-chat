@@ -1,120 +1,103 @@
-[
- {
-  "creation": "2014-03-12 14:48:01", 
-  "docstatus": 0, 
-  "modified": "2014-03-19 10:51:05", 
-  "modified_by": "Administrator", 
-  "owner": "Administrator"
- }, 
- {
-  "autoname": "hash", 
-  "doctype": "DocType", 
-  "document_type": "Transaction", 
-  "icon": "icon-comments", 
-  "module": "Website Chat", 
-  "name": "__common__", 
-  "title_field": "client_question"
- }, 
- {
-  "doctype": "DocField", 
-  "name": "__common__", 
-  "parent": "Website Chat Session", 
-  "parentfield": "fields", 
-  "parenttype": "DocType", 
-  "permlevel": 0
- }, 
- {
-  "create": 1, 
-  "doctype": "DocPerm", 
-  "name": "__common__", 
-  "parent": "Website Chat Session", 
-  "parentfield": "permissions", 
-  "parenttype": "DocType", 
-  "permlevel": 0, 
-  "write": 1
- }, 
- {
-  "doctype": "DocType", 
-  "name": "Website Chat Session"
- }, 
- {
-  "default": "New", 
-  "doctype": "DocField", 
-  "fieldname": "status", 
-  "fieldtype": "Select", 
-  "in_list_view": 1, 
-  "label": "Status", 
-  "options": "New\nActive\nWaiting\nEnded\nLost"
- }, 
- {
-  "doctype": "DocField", 
-  "fieldname": "website_chat_agent", 
-  "fieldtype": "Link", 
-  "label": "Website Chat Agent", 
-  "options": "Website Chat Agent"
- }, 
- {
-  "doctype": "DocField", 
-  "fieldname": "column_break_3", 
-  "fieldtype": "Column Break"
- }, 
- {
-  "doctype": "DocField", 
-  "fieldname": "client_name", 
-  "fieldtype": "Data", 
-  "in_list_view": 1, 
-  "label": "Client Name"
- }, 
- {
-  "doctype": "DocField", 
-  "fieldname": "client_email_id", 
-  "fieldtype": "Data", 
-  "label": "Client Email Id"
- }, 
- {
-  "doctype": "DocField", 
-  "fieldname": "client_question_type", 
-  "fieldtype": "Data", 
-  "label": "Client Question Type"
- }, 
- {
-  "doctype": "DocField", 
-  "fieldname": "section_break_7", 
-  "fieldtype": "Section Break"
- }, 
- {
-  "doctype": "DocField", 
-  "fieldname": "client_question", 
-  "fieldtype": "Text", 
-  "in_list_view": 1, 
-  "label": "Client Question"
- }, 
- {
-  "doctype": "DocField", 
-  "fieldname": "website_chat_messages", 
-  "fieldtype": "Table", 
-  "label": "Website Chat Messages", 
-  "options": "Website Chat Message"
- }, 
- {
-  "description": "5 is best, 1 is worst", 
-  "doctype": "DocField", 
-  "fieldname": "feedback", 
-  "fieldtype": "Int", 
-  "label": "Feedback"
- }, 
- {
-  "delete": 1, 
-  "doctype": "DocPerm", 
-  "export": 1, 
-  "read": 1, 
-  "report": 1, 
-  "role": "Website Chat Agent"
- }, 
- {
-  "doctype": "DocPerm", 
-  "read": 0, 
-  "restricted": 0, 
-  "role": "Guest"
- }
-]
+{
+ "autoname": "hash", 
+ "creation": "2014-03-12 14:48:01", 
+ "docstatus": 0, 
+ "doctype": "DocType", 
+ "document_type": "Transaction", 
+ "fields": [
+  {
+   "default": "New", 
+   "fieldname": "status", 
+   "fieldtype": "Select", 
+   "in_list_view": 1, 
+   "label": "Status", 
+   "options": "New\nActive\nWaiting\nEnded\nLost", 
+   "permlevel": 0
+  }, 
+  {
+   "fieldname": "website_chat_agent", 
+   "fieldtype": "Link", 
+   "label": "Website Chat Agent", 
+   "options": "Website Chat Agent", 
+   "permlevel": 0
+  }, 
+  {
+   "fieldname": "column_break_3", 
+   "fieldtype": "Column Break", 
+   "permlevel": 0
+  }, 
+  {
+   "fieldname": "client_name", 
+   "fieldtype": "Data", 
+   "in_list_view": 1, 
+   "label": "Client Name", 
+   "permlevel": 0
+  }, 
+  {
+   "fieldname": "client_email_id", 
+   "fieldtype": "Data", 
+   "label": "Client Email Id", 
+   "permlevel": 0
+  }, 
+  {
+   "fieldname": "client_question_type", 
+   "fieldtype": "Data", 
+   "label": "Client Question Type", 
+   "permlevel": 0
+  }, 
+  {
+   "fieldname": "section_break_7", 
+   "fieldtype": "Section Break", 
+   "permlevel": 0
+  }, 
+  {
+   "fieldname": "client_question", 
+   "fieldtype": "Text", 
+   "in_list_view": 1, 
+   "label": "Client Question", 
+   "permlevel": 0
+  }, 
+  {
+   "fieldname": "website_chat_messages", 
+   "fieldtype": "Table", 
+   "label": "Website Chat Messages", 
+   "options": "Website Chat Message", 
+   "permlevel": 0
+  }, 
+  {
+   "description": "5 is best, 1 is worst", 
+   "fieldname": "feedback", 
+   "fieldtype": "Int", 
+   "label": "Feedback", 
+   "permlevel": 0
+  }
+ ], 
+ "icon": "icon-comments", 
+ "idx": 1, 
+ "modified": "2014-03-19 10:51:05", 
+ "modified_by": "Administrator", 
+ "module": "Website Chat", 
+ "name": "Website Chat Session", 
+ "owner": "Administrator", 
+ "permissions": [
+  {
+   "create": 1, 
+   "delete": 1, 
+   "export": 1, 
+   "permlevel": 0, 
+   "read": 1, 
+   "report": 1, 
+   "role": "Website Chat Agent", 
+   "write": 1
+  }, 
+  {
+   "create": 1, 
+   "permlevel": 0, 
+   "read": 0, 
+   "restricted": 0, 
+   "role": "Guest", 
+   "write": 1
+  }
+ ], 
+ "title_field": "client_question"
+}

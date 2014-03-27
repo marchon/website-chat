@@ -1,42 +1,30 @@
-[
- {
-  "creation": "2014-03-12 15:06:17", 
-  "docstatus": 0, 
-  "modified": "2014-03-14 12:00:41", 
-  "modified_by": "Administrator", 
-  "owner": "Administrator"
- }, 
- {
-  "doctype": "DocType", 
-  "document_type": "Other", 
-  "istable": 1, 
-  "module": "Website Chat", 
-  "name": "__common__"
- }, 
- {
-  "doctype": "DocField", 
-  "in_list_view": 1, 
-  "name": "__common__", 
-  "parent": "Website Chat Message", 
-  "parentfield": "fields", 
-  "parenttype": "DocType", 
-  "permlevel": 0
- }, 
- {
-  "doctype": "DocType", 
-  "name": "Website Chat Message"
- }, 
- {
-  "doctype": "DocField", 
-  "fieldname": "message", 
-  "fieldtype": "Text", 
-  "label": "Message"
- }, 
- {
-  "doctype": "DocField", 
-  "fieldname": "sender", 
-  "fieldtype": "Select", 
-  "label": "Sender", 
-  "options": "Client\nAgent"
- }
-]
+{
+ "creation": "2014-03-12 15:06:17", 
+ "docstatus": 0, 
+ "doctype": "DocType", 
+ "document_type": "Other", 
+ "fields": [
+  {
+   "fieldname": "message", 
+   "fieldtype": "Text", 
+   "in_list_view": 1, 
+   "label": "Message", 
+   "permlevel": 0
+  }, 
+  {
+   "fieldname": "sender", 
+   "fieldtype": "Select", 
+   "in_list_view": 1, 
+   "label": "Sender", 
+   "options": "Client\nAgent", 
+   "permlevel": 0
+  }
+ ], 
+ "idx": 1, 
+ "istable": 1, 
+ "modified": "2014-03-14 12:00:41", 
+ "modified_by": "Administrator", 
+ "module": "Website Chat", 
+ "name": "Website Chat Message", 
+ "owner": "Administrator"
+}

@@ -1,83 +1,65 @@
-[
- {
-  "creation": "2014-03-12 15:05:03", 
-  "docstatus": 0, 
-  "modified": "2014-03-14 16:06:29", 
-  "modified_by": "Administrator", 
-  "owner": "Administrator"
- }, 
- {
-  "autoname": "field:user", 
-  "doctype": "DocType", 
-  "document_type": "Master", 
-  "icon": "icon-user", 
-  "module": "Website Chat", 
-  "name": "__common__"
- }, 
- {
-  "doctype": "DocField", 
-  "name": "__common__", 
-  "parent": "Website Chat Agent", 
-  "parentfield": "fields", 
-  "parenttype": "DocType", 
-  "permlevel": 0
- }, 
- {
-  "doctype": "DocPerm", 
-  "name": "__common__", 
-  "parent": "Website Chat Agent", 
-  "parentfield": "permissions", 
-  "parenttype": "DocType", 
-  "permlevel": 0, 
-  "read": 1
- }, 
- {
-  "doctype": "DocType", 
-  "name": "Website Chat Agent"
- }, 
- {
-  "doctype": "DocField", 
-  "fieldname": "agent_name", 
-  "fieldtype": "Data", 
-  "label": "Agent Name", 
-  "reqd": 1
- }, 
- {
-  "default": "Offline", 
-  "doctype": "DocField", 
-  "fieldname": "status", 
-  "fieldtype": "Select", 
-  "in_list_view": 1, 
-  "label": "Status", 
-  "options": "Active\nOffline\nDisabled", 
-  "reqd": 1
- }, 
- {
-  "doctype": "DocField", 
-  "fieldname": "user", 
-  "fieldtype": "Link", 
-  "label": "User", 
-  "options": "User", 
-  "reqd": 1
- }, 
- {
-  "doctype": "DocField", 
-  "fieldname": "agent_type", 
-  "fieldtype": "Data", 
-  "in_list_view": 1, 
-  "label": "Agent Type"
- }, 
- {
-  "create": 1, 
-  "delete": 1, 
-  "doctype": "DocPerm", 
-  "export": 1, 
-  "report": 1, 
-  "role": "System Manager", 
-  "write": 1
- }, 
- {
-  "doctype": "DocPerm", 
-  "role": "Website Chat Agent"
- }
-]
+{
+ "autoname": "field:user", 
+ "creation": "2014-03-12 15:05:03", 
+ "docstatus": 0, 
+ "doctype": "DocType", 
+ "document_type": "Master", 
+ "fields": [
+  {
+   "fieldname": "agent_name", 
+   "fieldtype": "Data", 
+   "label": "Agent Name", 
+   "permlevel": 0, 
+   "reqd": 1
+  }, 
+  {
+   "default": "Offline", 
+   "fieldname": "status", 
+   "fieldtype": "Select", 
+   "in_list_view": 1, 
+   "label": "Status", 
+   "options": "Active\nOffline\nDisabled", 
+   "permlevel": 0, 
+   "reqd": 1
+  }, 
+  {
+   "fieldname": "user", 
+   "fieldtype": "Link", 
+   "label": "User", 
+   "options": "User", 
+   "permlevel": 0, 
+   "reqd": 1
+  }, 
+  {
+   "fieldname": "agent_type", 
+   "fieldtype": "Data", 
+   "in_list_view": 1, 
+   "label": "Agent Type", 
+   "permlevel": 0
+  }
+ ], 
+ "icon": "icon-user", 
+ "idx": 1, 
+ "modified": "2014-03-14 16:06:29", 
+ "modified_by": "Administrator", 
+ "module": "Website Chat", 
+ "name": "Website Chat Agent", 
+ "owner": "Administrator", 
+ "permissions": [
+  {
+   "create": 1, 
+   "delete": 1, 
+   "export": 1, 
+   "permlevel": 0, 
+   "read": 1, 
+   "report": 1, 
+   "role": "System Manager", 
+   "write": 1
+  }, 
+  {
+   "permlevel": 0, 
+   "read": 1, 
+   "role": "Website Chat Agent"
+  }
+ ]
+}
