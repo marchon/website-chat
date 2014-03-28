@@ -12,7 +12,7 @@ def on_login(login_manager):
 		{"user": frappe.session.user }, ["name", "status"], as_dict=True)
 	if agent and agent.status=="Offline":
 		agent = frappe.bean("Website Chat Agent", agent.name)
-		agent.doc.status = "Active"
+		agent.status = "Active"
 		agent.save(ignore_permissions=True)
 				
 def get_context(context):
@@ -78,7 +78,7 @@ def get_active_sessions():
 @frappe.whitelist(allow_guest=True)
 def end_chat(chatid):
 	chat = frappe.bean("Website Chat Session", chatid)
-	chat.doc.status = "Ended"
+	chat.status = "Ended"
 	chat.save(ignore_permissions=True)
 	
 @frappe.whitelist(allow_guest=True)
@@ -89,8 +89,8 @@ def set_feedback(chatid, feedback):
 def set_agent_status(my_status):
 	agent = frappe.bean("Website Chat Agent", {"user": frappe.session.user})
 	if my_status=="Active":
-		agent.doc.status = "Offline"
+		agent.status = "Offline"
 	else:
-		agent.doc.status = "Active"
+		agent.status = "Active"
 	agent.save(ignore_permissions=True)
-	return agent.doc.status
+	return agent.status
