@@ -11,7 +11,7 @@ def on_login(login_manager):
 	agent = frappe.db.get_value("Website Chat Agent", 
 		{"user": frappe.session.user }, ["name", "status"], as_dict=True)
 	if agent and agent.status=="Offline":
-		agent = frappe.bean("Website Chat Agent", agent.name)
+		agent = frappe.get_doc("Website Chat Agent", agent.name)
 		agent.status = "Active"
 		agent.save(ignore_permissions=True)
 				
@@ -47,7 +47,7 @@ def get_latest(chatid, sender, last_message_id=""):
 	if chatid != "no-chat":
 		doclist = frappe.cache().get_value(chatid)
 		if not doclist:
-			doclist = frappe.bean("Website Chat Session", chatid).doclist
+			doclist = frappe.get_doc("Website Chat Session", chatid).doclist
 			frappe.cache().set_value(chatid, doclist)
 
 		out["messages"] = []
@@ -77,8 +77,13 @@ def get_active_sessions():
 	
 @frappe.whitelist(allow_guest=True)
 def end_chat(chatid):
+<<<<<<< HEAD
 	chat = frappe.bean("Website Chat Session", chatid)
 	chat.status = "Ended"
+=======
+	chat = frappe.get_doc("Website Chat Session", chatid)
+	chat.doc.status = "Ended"
+>>>>>>> frappe/frappe#478
 	chat.save(ignore_permissions=True)
 	
 @frappe.whitelist(allow_guest=True)
@@ -87,7 +92,7 @@ def set_feedback(chatid, feedback):
 
 @frappe.whitelist()
 def set_agent_status(my_status):
-	agent = frappe.bean("Website Chat Agent", {"user": frappe.session.user})
+	agent = frappe.get_doc("Website Chat Agent", {"user": frappe.session.user})
 	if my_status=="Active":
 		agent.status = "Offline"
 	else:
