@@ -45,17 +45,17 @@ def get_agent_status():
 def get_latest(chatid, sender, last_message_id=""):
 	out = {}
 	if chatid != "no-chat":
-		doclist = frappe.cache().get_value(chatid)
-		if not doclist:
-			doclist = frappe.get_doc("Website Chat Session", chatid).doclist
-			frappe.cache().set_value(chatid, doclist)
+		doc = frappe.cache().get_value(chatid)
+		if not doc:
+			doc = frappe.get_doc("Website Chat Session", chatid)
+			frappe.cache().set_value(chatid, doc)
 
 		out["messages"] = []
-		for d in doclist[1:]:
-			if d.get("doctype")=="Website Chat Message" and d.get("name") > last_message_id:
+		for d in doc.get("website_chat_messages"):
+			if d.get("name") > last_message_id:
 				out["messages"].append(d)
 	
-		out["status"] = doclist[0].get('status')
+		out["status"] = doc.get('status')
 		
 	if sender=="Agent":
 		out["active_sessions"] = get_active_sessions()
