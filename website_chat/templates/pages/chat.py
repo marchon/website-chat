@@ -78,11 +78,11 @@ def get_active_sessions():
 @frappe.whitelist(allow_guest=True)
 def end_chat(chatid):
 <<<<<<< HEAD
-	chat = frappe.bean("Website Chat Session", chatid)
+	chat = frappe.doc("Website Chat Session", chatid)
 	chat.status = "Ended"
 =======
 	chat = frappe.get_doc("Website Chat Session", chatid)
-	chat.doc.status = "Ended"
+	chat.status = "Ended"
 >>>>>>> frappe/frappe#478
 	chat.save(ignore_permissions=True)
 	
